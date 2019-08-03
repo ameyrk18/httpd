@@ -3,6 +3,7 @@
 - name: test httpd configuration validity
   command: "{{ httpd_binary }} -t"
   changed_when: no
+  retries: 3
 
 - name: restart httpd
   service:
