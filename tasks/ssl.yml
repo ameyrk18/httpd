@@ -1,0 +1,60 @@
+- name: configured/install certificates
+  block:
+    - name: create ssl directory
+      file:
+        path: "{{ httpd_config_directory }}/ssl"
+        state: directory
+
+    - name: create ssl key
+      openssl_privatekey:
+        path: "{{ httpd_config_directory }}/ssl/{{ httpd_ssl_servername }}.key"
+      register: key
+      when: ssl_type == "selfsigned"
+
+    - name: create ssl csr
+      openssl_csr:
+        path: "{{ httpd_config_directory }}/ssl/{{ httpd_ssl_servername }}.csr"
+        privatekey_path: "{{ key.filename }}"
+        common_name: "{{ httpd_ssl_servername }}"
+      register: csr
+      when: ssl_type == "selfsigned"
+
+    - name: create ssl certificates
+      openssl_certificate:
+        path: "{{ httpd_config_directory }}/ssl/{{ httpd_ssl_servername }}.crt"
+        privatekey_path: "{{ csr.privatekey }}"
+        csr_path: "{{ csr.filename }}"
+        provider: selfsigned
+      when: ssl_type == "selfsigned"
+
+    - name: copy CA certs
+      copy:
+        src: "{{ item }}"
+        dest: "{{ httpd_config_directory }}/ssl/"
+        owner: root
+        mode: 600
+      with_fileglob:
+        - certs/*
+      when: ssl_type == signed
+
+    - name: configure ssl
+      template:
+        src: ssl.conf.j2
+        dest: "{{ httpd_config_directory }}/ssl.conf"
+      notify:
+        - test httpd configuration validity
+        - restart httpd
+      when: ssl_type is defined
+      retries: 3
+
+    - name: configure redirect from http to https
+      template:
+        src: default_vhost.conf.j2
+        dest: "{{ httpd_config_directory }}/default_vhost.conf"
+      notify:
+        - test httpd configuration validity
+        - restart httpd
+      when: ssl_type is defined
+
+  when: ssl_enabled == true and ssl_enabled is defined
+

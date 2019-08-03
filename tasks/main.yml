@@ -1,0 +1,18 @@
+---
+
+- include: install.yml
+
+- include: selinux.yml
+
+
+- include: ssl.yml
+
+- include: restart.yml
+
+
+
+
+
+
+
+

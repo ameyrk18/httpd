@@ -1,0 +1,22 @@
+{{ ansible_managed | comment }}
+
+LoadModule ssl_module {{ httpd_modules_path}}/mod_ssl.so
+{% if dev_mode is defined %}
+(% for ports in {{ httpd_ssl_ports }} %)
+Listen {{ ports }}
+<VirtualHost *:{{ ports }}>
+    ServerName {{ httpd_ssl_servername }}
+    SSLEngine on
+    SSLCertificateFile "{{ httpd_config_directory }}/ssl/{{ httpd_ssl_servername }}.crt"
+    SSLCertificateKeyFile "{{ httpd_config_directory }}/ssl/{{ httpd_ssl_servername }}.key"
+</VirtualHost>
+(% endfor %)
+{% else %}
+Listen {{ httpd_ssl_port }}
+<VirtualHost *:{{ httpd_ssl_port }}>
+    ServerName {{ httpd_ssl_servername }}
+    SSLEngine on
+    SSLCertificateFile "{{ httpd_config_directory }}/ssl/{{ httpd_ssl_servername }}.crt"
+    SSLCertificateKeyFile "{{ httpd_config_directory }}/ssl/{{ httpd_ssl_servername }}.key"
+</VirtualHost>
+{% endif %}
