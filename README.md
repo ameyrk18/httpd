@@ -2,6 +2,7 @@
 
 This role installs and configures default apache role. Enables seliniux. 
 
+Vars are defined in https://github.com/ameyrk18/httpd/blob/master/vars/main.yml
 
 # Execute this playbook  
 ansible-playbook -i inventory playbook.yml --private-key <private-key> --extra-vars "ansible_user=<user>" 
