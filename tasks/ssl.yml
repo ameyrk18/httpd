@@ -35,7 +35,7 @@
         mode: 600
       with_fileglob:
         - certs/*
-      when: ssl_type == signed
+      when: ssl_type == "signed"
 
     - name: configure ssl
       template:
