@@ -12,3 +12,15 @@ httpd_ssl_servername: "{{ ansible_fqdn }}"
 
 # For SSL a TCP port is required.
 httpd_ssl_port: 443
+
+# Enables SSL
+ssl_enabled: true
+
+ssl_type: selfsigned
+
+target_env_cert: others
+
+# enable either of these vars if your looking to copy the valid CA certs
+# target_env_cert: others // for lower environments by default others is configured will be always skipped until we enable ssl_type: signed
+# target_env_cert: prod // for prod environment
+# ssl_type: signed // this var will enable the valid CA certs
