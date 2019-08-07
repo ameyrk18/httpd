@@ -27,14 +27,14 @@
         provider: selfsigned
       when: ssl_type == "selfsigned"
 
-    - name: copy CA certs
+    - name: copy valid CA certs
       copy:
         src: "{{ item }}"
         dest: "{{ httpd_config_directory }}/ssl/"
         owner: root
         mode: 600
       with_fileglob:
-        - certs/*
+        - certs/"{{ target_env_cert }}"*
       when: ssl_type == signed
 
     - name: configure ssl
