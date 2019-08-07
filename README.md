@@ -13,6 +13,6 @@ Vars are defined in https://github.com/ameyrk18/httpd/blob/master/vars/main.yml
  
  
 # Valid CA certs 
-If you are looking to use valid CA certs then please place your certs under ``certs`` directory  provided and update the ``ssl_type:signed``
+If you are looking to use valid CA certs then please place your certs under ``certs/others`` directory provided and update the ``ssl_type:signed``. You can place prod certificates under ``certs/prod``. The certificate sub directory var can be controlled by variable ``target_env_cert``. 
 
 
