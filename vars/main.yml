@@ -71,6 +71,8 @@ httpd_binary: "{{ _httpd_binary[ansible_distribution] | default(_httpd_binary['d
 ssl_enabled: true
 
 ssl_type: selfsigned
+# configured to others by default, this will not be considered unless we configure ssl_type:signed
+target_env_cert: others 
 
 # enable either of these vars if your looking to copy the valid CA certs
 # target_env_cert: others // for lower environments
