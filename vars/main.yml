@@ -62,7 +62,7 @@ _httpd_modules_path:
 httpd_modules_path: "{{ _httpd_modules_path[ansible_distribution] | default(_httpd_modules_path['default']) }}"
 
 _httpd_binary:
-  default: httpd
+  default: /usr/sbin/httpd
   Debian: apachectl
   Ubuntu: apachectl
 
