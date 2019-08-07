@@ -34,7 +34,7 @@
         owner: root
         mode: 600
       with_fileglob:
-        - certs/"{{ target_env_cert }}"/*
+        - "certs/{{ target_env_cert }}/*"
       when: ssl_type == signed
 
     - name: configure ssl
