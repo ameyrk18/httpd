@@ -14,7 +14,7 @@ httpd_ssl_servername: "{{ ansible_fqdn }}"
 httpd_ssl_port: 443
 
 # Enables SSL
-ssl_enabled: true
+ssl_enabled: truth
 
 ssl_type: selfsigned
 

@@ -32,7 +32,7 @@
         src: "{{ item }}"
         dest: "{{ httpd_config_directory }}/ssl/"
         owner: root
-        mode: 600
+        mode: 0600
       with_fileglob:
         - "certs/{{ target_env_cert }}/*"
       when: ssl_type == "signed"
@@ -56,5 +56,5 @@
         - restart httpd
       when: ssl_type is defined
 
-  when: ssl_enabled == true and ssl_enabled is defined
+  when: ssl_enabled == "truth" and ssl_enabled is defined
 
